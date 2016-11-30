@@ -1,73 +1,78 @@
 package hra;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class Hrac {
+	public static final int sirka = 40;
+	public static final int vyska = 33;
 	
-	public static final int SIRKA = 40;
-	public static final int VYSKA = 33;
+	private static final int koef_zrychleni = 1; //velikost skoku hrace
+	private static final int koef_rychlost = 2;  //rychlost padu hrace
 	
-	//velikost skoku hrace
-	private static final int KOEF_ZRYCHLENI = 1;
-	//rychlost padu hrace
-	private static final int KOEF_RYCHLOST = 2;
 	private BufferedImage img = null;
-	//pocatecni x-ova pozice hrace, nemeni se (hrac neskace dopredu)
-	private int x;
-	//pocatecni y-ova pozice hrace, meni se (hrac skace nahoru, dolu)
-	private int y;
-	private int rychlost;
+	
+	private int x; //pocatecni x-ova pozice hrace, nemeni se (skoky jen nahoru)
+	private int y; //pocatecni y-ova pozice hrace, meni se
+	private int rychlost; //bude ovlivnena koeficienty
 	
 	
-	public Hrac(BufferedImage img) {
+	public Hrac(BufferedImage img){
 		this.img = img;
-		x = (HraciPlocha.SIRKA / 2) - (img.getWidth() / 2); 
-		y = HraciPlocha.VYSKA / 2;   //stred hraci plochy
-		rychlost = KOEF_RYCHLOST;
-	}
-	
-	// vola se po narazu do zdi, do kraje okna
-	public void reset(){
-		y = HraciPlocha.VYSKA / 2;
-		rychlost = KOEF_RYCHLOST;
+		y = HraciPlocha.vyska / 2; //vyska, ve ktere bude hrac - v pulce
+		x = (HraciPlocha.sirka / 2) - (img.getWidth() / 2); //stred obrazku je ve stredu hraci plochy
 		
+		rychlost = koef_rychlost; //to bude pocatecni rychlost
 	}
 	
-	public int getX() {
+	/**
+	 * vola se po narazu do zdi nebo do okraje okna
+	 */
+	public void reset(){
+		y = HraciPlocha.vyska / 2; //hrac do puvodni pozice
+		rychlost = koef_rychlost;
+	}
+	
+	public int getX(){
 		return x;
 	}
-	public int getY() {
+	
+	public int getY(){
 		return y;
 	}
 	
 	public void skok(){
-		
-		rychlost = -17;
-	}
-	//zajistuje pohyb hrace
-	public void posun(){
-		rychlost = rychlost + KOEF_ZRYCHLENI;
-		y = y + rychlost;
-		
+		rychlost = -17;  //pri skoku se snizi rychlost
 	}
 	
-	public void paint(Graphics  g){
+	/**
+	 * zajistuje pohyb hrace
+	 */
+	public void posun(){
+		rychlost = rychlost + koef_zrychleni;
+		y = y + rychlost; //posune se o rychlost.. napr je na 100 a skoci tak se posune na 83
+	}
+	
+	public void paint(Graphics g){
 		g.drawImage(img, x, y, null);
 		
+		if(HraciPlocha.DEBUG){
+			g.setColor(Color.WHITE);
+			g.drawString("[x =" + x + ", y =" + y + ". rychlost =" + rychlost +"]", x, y-5);
+		}
 	}
 	
 	public int getVyskaHrace(){
-		return img.getHeight();
-		
+		return img.getHeight(); //vracime rozmer obrazku
 	}
-	// vraci pomyslny ctverec/obdelnik, ktery opisuje hrace
+	
+	/**
+	 * vraci pomyslny ctverec/obdelnik, ktery opisuje hrace
+	 */
 	public Rectangle getMez(){
 		return new Rectangle(x, y, img.getWidth(), img.getHeight());
-		
 	}
 	
-	
-
 }
