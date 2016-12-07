@@ -1,6 +1,7 @@
 package hra;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
@@ -28,6 +29,8 @@ public class Zed {
 	private int vyska;
 	
 	private Random random;
+	
+	public static final int body_pro_zed = 1;
 	
 	
 	public Zed(int vzdalenost){
@@ -84,7 +87,25 @@ public class Zed {
 		Zed.img = img;
 	}
 	
+	public Rectangle getLowerRect(){
+				return new Rectangle(x,y,sirka,vyska);
+			}
 	
+	public Rectangle getUpperRect(){
+				return new Rectangle(x,0,sirka, HraciPlocha.vyska - vyska - mezera);
+			}
+	
+	public Rectangle getMezSPodniCastiZdi(){
+		return new Rectangle(x,y, sirka,vyska);
+	}
+	
+	public Rectangle getMezHorniCastiZdi(){
+		
+		return new Rectangle(x,0, sirka,0 );
+	}
+	public void reset(){
+				generujRandomValuesForWalls();
+			}
 	
 	
 	
