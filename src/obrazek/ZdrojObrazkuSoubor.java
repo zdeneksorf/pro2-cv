@@ -14,7 +14,7 @@ public class ZdrojObrazkuSoubor extends ZdrojObrazku{
 	@Override
 	public void naplnMapu() {
 		getMapa().put(Obrazek.POZADI.getKlic(), "plocha4.png");
-		getMapa().put(Obrazek.HRAC.getKlic(), "vlc.png");
+		getMapa().put(Obrazek.HRAC.getKlic(), "panacek.png");
 		getMapa().put(Obrazek.ZED.getKlic(), "zed.png");
 	}
 	

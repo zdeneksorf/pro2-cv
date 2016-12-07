@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+import obrazek.ManagerObrazku;
 import obrazek.Obrazek;
 import obrazek.ZdrojObrazkuSoubor;
 
@@ -51,38 +52,11 @@ public class HraciPlocha extends JPanel{
 	private Font zpravaFont;
 	
 	
-	public HraciPlocha(){
-		ZdrojObrazkuSoubor z = new ZdrojObrazkuSoubor();
-		z.naplnMapu();
+	public HraciPlocha(ManagerObrazku mo){
 		
-		z.setZdroj(Obrazek.POZADI.getKlic());
-		
-		try {
-			imgPozadi = z.getObrazek();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		
-		z.setZdroj(Obrazek.HRAC.getKlic());
-		BufferedImage imgHrac;
-		//hrac = new Hrac(null);
-		try {
-			imgHrac = z.getObrazek();
-			hrac = new Hrac(imgHrac);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		
-		z.setZdroj(Obrazek.ZED.getKlic());
-		BufferedImage imgZed;
-		try {
-			imgZed = z.getObrazek();
-			Zed.setObrazek(imgZed);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		imgPozadi = mo.getObrazek(Obrazek.POZADI);
+		hrac = new Hrac(mo.getObrazek(Obrazek.HRAC));
+		Zed.setObrazek(mo.getObrazek(Obrazek.ZED));
 		
 		seznamZdi = new SeznamZdi();
 		makeLabels();
@@ -101,7 +75,7 @@ public class HraciPlocha extends JPanel{
 				
 				lbSkore = new JLabel("0");
 				lbSkore.setFont(font);
-				lbSkore.setForeground(Color.BLUE); //barva skore nahore
+				lbSkore.setForeground(Color.RED); //barva skore nahore
 				lbSkore.setHorizontalAlignment(SwingConstants.CENTER);
 		 		
 				this.add(lbSkore, BorderLayout.NORTH);
