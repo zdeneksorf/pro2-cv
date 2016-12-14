@@ -15,6 +15,7 @@ import hra.HraciPlocha;
 import obrazek.ManagerObrazku;
 import obrazek.ZdrojObrazku;
 import obrazek.ZdrojObrazkuSoubor;
+import obrazek.ZdrojObrazkuURL;
 
 public class HraHlavniApp extends JFrame{
 	private ManagerObrazku mo;
@@ -22,7 +23,8 @@ public class HraHlavniApp extends JFrame{
 	
 	
 	public HraHlavniApp(){
-		mo = new ManagerObrazku(new ZdrojObrazkuSoubor());
+		//mo = new ManagerObrazku(new ZdrojObrazkuSoubor());
+		mo = new ManagerObrazku(new ZdrojObrazkuURL());
 	}
 	
 	public void spust(){
@@ -56,8 +58,7 @@ public class HraHlavniApp extends JFrame{
 			@Override
 			protected Object doInBackground() throws Exception {
 				mo.pripravObrazky();
-				hraciPlocha = new HraciPlocha(mo);
-				hraciPlocha.pripravHraciPlochu();
+				
 				return null;
 			}
 			
@@ -65,7 +66,8 @@ public class HraHlavniApp extends JFrame{
 			protected void done() {
 				
 				super.done();
-				
+				hraciPlocha = new HraciPlocha(mo);
+				hraciPlocha.pripravHraciPlochu();
 				vlastnik.remove(lb);
 				vlastnik.revalidate();
 				vlastnik.add(hraciPlocha);
